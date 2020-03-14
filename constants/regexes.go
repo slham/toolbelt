@@ -42,6 +42,7 @@ const (
 	strongPassword                   = `^[a-zA-Z0-9!@#$&*-_]{16,}?$`
 	mediumPassword                   = `^[a-zA-Z0-9!@#$&*-_]{8,}?$`
 	zipCode                          = `^[0-9]{5}$`
+	yyyyMMddHhmMss                   = `[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]`
 )
 
 var (
@@ -84,4 +85,5 @@ var (
 	StrongPasswordRegex        = regexp.MustCompile(strongPassword)
 	MediumPasswordRegex        = regexp.MustCompile(mediumPassword)
 	ZipCodeRegex               = regexp.MustCompile(zipCode)
+	YyyymmddHhmmss             = regexp.MustCompile(yyyyMMddHhmMss)
 )
