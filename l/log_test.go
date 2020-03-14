@@ -13,12 +13,11 @@ import (
 	"toolbelt/constants"
 )
 
-
 func TestInitialize(t *testing.T) {
-	tables := []struct{
+	tables := []struct {
 		level string
-		succ bool
-		m int8
+		succ  bool
+		m     int8
 	}{
 		{"DEBUG", true, int8(0)},
 		{"INFO", true, int8(1)},
@@ -114,7 +113,7 @@ func TestInfo(t *testing.T) {
 	mode = int8(1)
 	Info(ctx, "dummy message form %s to be formatted", "Krillin")
 
-	assert.Equal(t,"{\"level\":\"INFO\",\"tranId\":\"tranId\",\"message\":\"dummy message form Krillin to be formatted\"}", cleanLogOutput(str.String()))
+	assert.Equal(t, "{\"level\":\"INFO\",\"tranId\":\"tranId\",\"message\":\"dummy message form Krillin to be formatted\"}", cleanLogOutput(str.String()))
 }
 
 func TestInfoNoLog(t *testing.T) {
@@ -136,7 +135,7 @@ func TestWarn(t *testing.T) {
 	mode = int8(2)
 	Warn(ctx, "dummy message form %s to be formatted", "Mickey Mouse")
 
-	assert.Equal(t,"{\"level\":\"WARN\",\"tranId\":\"tranId\",\"message\":\"dummy message form Mickey Mouse to be formatted\"}", cleanLogOutput(str.String()))
+	assert.Equal(t, "{\"level\":\"WARN\",\"tranId\":\"tranId\",\"message\":\"dummy message form Mickey Mouse to be formatted\"}", cleanLogOutput(str.String()))
 }
 
 func TestWarnNoLog(t *testing.T) {
@@ -158,7 +157,7 @@ func TestError(t *testing.T) {
 	mode = int8(3)
 	Error(ctx, "dummy message form %s to be formatted", "Captain Planet")
 
-	assert.Equal(t,"{\"level\":\"ERROR\",\"tranId\":\"tranId\",\"message\":\"dummy message form Captain Planet to be formatted\"}", cleanLogOutput(str.String()))
+	assert.Equal(t, "{\"level\":\"ERROR\",\"tranId\":\"tranId\",\"message\":\"dummy message form Captain Planet to be formatted\"}", cleanLogOutput(str.String()))
 }
 
 func TestErrorNoLog(t *testing.T) {
@@ -172,7 +171,7 @@ func TestErrorNoLog(t *testing.T) {
 	assert.Equal(t, "", cleanLogOutput(str.String()))
 }
 
-func cleanLogOutput(s string) string{
+func cleanLogOutput(s string) string {
 	dateRemoved := constants.YyyymmddHhmmss.ReplaceAllString(s, "")
 	return strings.Trim(dateRemoved, " \n")
 }
@@ -182,4 +181,3 @@ func dummyContext() context.Context {
 	ctx = context.WithValue(ctx, constants.ReqCtx, "tranId")
 	return ctx
 }
-

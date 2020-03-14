@@ -13,8 +13,8 @@ import (
 type Level string
 
 type Log struct {
-	Level Level `json:"level"`
-	TranId string `json:"tranId"`
+	Level   Level  `json:"level"`
+	TranId  string `json:"tranId"`
 	Message string `json:"message"`
 }
 
