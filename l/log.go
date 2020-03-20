@@ -61,7 +61,12 @@ func Debug(ctx context.Context, message string, args ...interface{}) {
 	if mode > levels[DEBUG] {
 		return
 	}
-	tranId := getCtx(ctx)
+	var tranId string
+
+	if ctx != nil {
+		tranId = getCtx(ctx)
+	}
+
 	l(DEBUG, tranId, fmt.Sprintf(message, args...))
 }
 
@@ -69,7 +74,12 @@ func Info(ctx context.Context, message string, args ...interface{}) {
 	if mode > levels[INFO] {
 		return
 	}
-	tranId := getCtx(ctx)
+	var tranId string
+
+	if ctx != nil {
+		tranId = getCtx(ctx)
+	}
+
 	l(INFO, tranId, fmt.Sprintf(message, args...))
 }
 
@@ -77,7 +87,12 @@ func Warn(ctx context.Context, message string, args ...interface{}) {
 	if mode > levels[WARN] {
 		return
 	}
-	tranId := getCtx(ctx)
+	var tranId string
+
+	if ctx != nil {
+		tranId = getCtx(ctx)
+	}
+
 	l(WARN, tranId, fmt.Sprintf(message, args...))
 }
 
@@ -85,7 +100,12 @@ func Error(ctx context.Context, message string, args ...interface{}) {
 	if mode > levels[ERROR] {
 		return
 	}
-	tranId := getCtx(ctx)
+	var tranId string
+
+	if ctx != nil {
+		tranId = getCtx(ctx)
+	}
+
 	l(ERROR, tranId, fmt.Sprintf(message, args...))
 }
 

@@ -105,6 +105,15 @@ func TestDebugNoLog(t *testing.T) {
 	assert.Equal(t, "", cleanLogOutput(str.String()))
 }
 
+func TestDebugNoCtx(t *testing.T) {
+	var str bytes.Buffer
+	log.SetOutput(&str)
+	mode = int8(0)
+	Debug(nil, "dummy message form %s to be formatted", "Teemo")
+
+	assert.Equal(t, "{\"level\":\"DEBUG\",\"tranId\":\"\",\"message\":\"dummy message form Teemo to be formatted\"}", cleanLogOutput(str.String()))
+}
+
 func TestInfo(t *testing.T) {
 	ctx := dummyContext()
 
@@ -125,6 +134,15 @@ func TestInfoNoLog(t *testing.T) {
 	Info(ctx, "dummy message form %s to be formatted", "Krillin")
 
 	assert.Equal(t, "", cleanLogOutput(str.String()))
+}
+
+func TestInfoNoCtx(t *testing.T) {
+	var str bytes.Buffer
+	log.SetOutput(&str)
+	mode = int8(1)
+	Info(nil, "dummy message form %s to be formatted", "Krillin")
+
+	assert.Equal(t, "{\"level\":\"INFO\",\"tranId\":\"\",\"message\":\"dummy message form Krillin to be formatted\"}", cleanLogOutput(str.String()))
 }
 
 func TestWarn(t *testing.T) {
@@ -149,6 +167,15 @@ func TestWarnNoLog(t *testing.T) {
 	assert.Equal(t, "", cleanLogOutput(str.String()))
 }
 
+func TestWarnNoCtx(t *testing.T) {
+	var str bytes.Buffer
+	log.SetOutput(&str)
+	mode = int8(2)
+	Warn(nil, "dummy message form %s to be formatted", "Mickey Mouse")
+
+	assert.Equal(t, "{\"level\":\"WARN\",\"tranId\":\"\",\"message\":\"dummy message form Mickey Mouse to be formatted\"}", cleanLogOutput(str.String()))
+}
+
 func TestError(t *testing.T) {
 	ctx := dummyContext()
 
@@ -169,6 +196,15 @@ func TestErrorNoLog(t *testing.T) {
 	Error(ctx, "dummy message form %s to be formatted", "Captain Planet")
 
 	assert.Equal(t, "", cleanLogOutput(str.String()))
+}
+
+func TestErrorNoCtx(t *testing.T) {
+	var str bytes.Buffer
+	log.SetOutput(&str)
+	mode = int8(3)
+	Error(nil, "dummy message form %s to be formatted", "Captain Planet")
+
+	assert.Equal(t, "{\"level\":\"ERROR\",\"tranId\":\"\",\"message\":\"dummy message form Captain Planet to be formatted\"}", cleanLogOutput(str.String()))
 }
 
 func cleanLogOutput(s string) string {
