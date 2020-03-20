@@ -1,4 +1,4 @@
-package l
+package toolbelt
 
 import (
 	"bytes"
@@ -10,7 +10,6 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"toolbelt/constants"
 )
 
 func TestInitialize(t *testing.T) {
@@ -45,7 +44,7 @@ func TestLogging(t *testing.T) {
 	handlerToTest := Logging(nextHandler)
 
 	req := httptest.NewRequest("GET", "http://test/ing", nil)
-	req.Header.Set(constants.UserId, "Willy-Wonka")
+	req.Header.Set(UserId, "Willy-Wonka")
 	handlerToTest.ServeHTTP(httptest.NewRecorder(), req)
 
 	logs := strings.Split(str.String(), "\n")
@@ -172,12 +171,12 @@ func TestErrorNoLog(t *testing.T) {
 }
 
 func cleanLogOutput(s string) string {
-	dateRemoved := constants.YyyymmddHhmmss.ReplaceAllString(s, "")
+	dateRemoved := YyyymmddHhmmss.ReplaceAllString(s, "")
 	return strings.Trim(dateRemoved, " \n")
 }
 
 func dummyContext() context.Context {
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, constants.ReqCtx, "tranId")
+	ctx = context.WithValue(ctx, ReqCtx, "tranId")
 	return ctx
 }

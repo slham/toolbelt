@@ -1,4 +1,4 @@
-package constants
+package toolbelt
 
 import "regexp"
 
