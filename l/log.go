@@ -1,10 +1,11 @@
-package toolbelt
+package l
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/pborman/uuid"
+	"github.com/slham/toolbelt/constants"
 	"log"
 	"net/http"
 )
@@ -48,7 +49,7 @@ func Initialize(lvl string) bool {
 func Logging(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		ctx = context.WithValue(ctx, ReqCtx, uuid.New())
+		ctx = context.WithValue(ctx, constants.ReqCtx, uuid.New())
 		r = r.WithContext(ctx)
 		Debug(r.Context(), fmt.Sprintf("method:%s,url:%s", r.Method, r.URL.Path))
 		Debug(r.Context(), fmt.Sprintf("headers:%v", r.Header))
@@ -98,5 +99,5 @@ func l(lvl Level, tranId, message string) {
 }
 
 func getCtx(ctx context.Context) string {
-	return ctx.Value(ReqCtx).(string)
+	return ctx.Value(constants.ReqCtx).(string)
 }

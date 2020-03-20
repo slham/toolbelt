@@ -1,9 +1,10 @@
-package toolbelt
+package l
 
 import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"github.com/slham/toolbelt/constants"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"net/http"
@@ -44,7 +45,7 @@ func TestLogging(t *testing.T) {
 	handlerToTest := Logging(nextHandler)
 
 	req := httptest.NewRequest("GET", "http://test/ing", nil)
-	req.Header.Set(UserId, "Willy-Wonka")
+	req.Header.Set(constants.UserId, "Willy-Wonka")
 	handlerToTest.ServeHTTP(httptest.NewRecorder(), req)
 
 	logs := strings.Split(str.String(), "\n")
@@ -171,12 +172,12 @@ func TestErrorNoLog(t *testing.T) {
 }
 
 func cleanLogOutput(s string) string {
-	dateRemoved := YyyymmddHhmmss.ReplaceAllString(s, "")
+	dateRemoved := constants.YyyymmddHhmmss.ReplaceAllString(s, "")
 	return strings.Trim(dateRemoved, " \n")
 }
 
 func dummyContext() context.Context {
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, ReqCtx, "tranId")
+	ctx = context.WithValue(ctx, constants.ReqCtx, "tranId")
 	return ctx
 }

@@ -1,4 +1,4 @@
-package toolbelt
+package constants
 
 const TranId = "tranId"
 const UserId = "userId"
