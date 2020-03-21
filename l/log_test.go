@@ -15,7 +15,7 @@ import (
 
 func TestInitialize(t *testing.T) {
 	tables := []struct {
-		level string
+		level Level
 		succ  bool
 		m     int8
 	}{

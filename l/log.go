@@ -34,10 +34,10 @@ var levels = map[Level]int8{
 
 var mode int8
 
-func Initialize(lvl string) bool {
-	if m, ok := levels[Level(lvl)]; ok {
+func Initialize(lvl Level) bool {
+	if m, ok := levels[lvl]; ok {
 		mode = m
-		log.Println(fmt.Sprintf("logging level set to %s", lvl))
+		log.Println(fmt.Sprintf("logging level set to %v", lvl))
 		return ok
 	} else {
 		log.Println(fmt.Sprintf("invalid logging level %s", lvl))
