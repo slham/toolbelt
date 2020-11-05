@@ -3,15 +3,8 @@ package partition
 import (
 	"fmt"
 	"github.com/meirf/gopart"
+	"time"
 )
-
-type IntPartition interface {
-	Next()
-	Before([]int)*IntPartition
-	Process([]int)*IntPartition
-	After([]int)*IntPartition
-	Do([]int)
-}
 
 type PercentPartition struct {
 	Left       int
@@ -49,6 +42,12 @@ func (p *PercentPartition) Do(them []int) {
 	p.Before(them[p.Left:p.Right]).Process(them[p.Left:p.Right]).After(them[p.Left:p.Right])
 }
 
+func (p *PercentPartition) Time(arr []int, desc string) {
+	start := time.Now()
+	p.Do(arr)
+	fmt.Printf("%s took %v\n", desc, time.Since(start))
+}
+
 type SimplePartition struct {
 	Partitions int
 }
@@ -71,4 +70,10 @@ func (p *SimplePartition) Do(them []int) {
 		segment := them[idxRange.Low:idxRange.High]
 		p.Before(segment).Process(segment).After(segment)
 	}
+}
+
+func (p *SimplePartition) Time(arr []int, desc string) {
+	start := time.Now()
+	p.Do(arr)
+	fmt.Printf("%s took %v\n", desc, time.Since(start))
 }
