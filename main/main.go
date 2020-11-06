@@ -6,50 +6,47 @@ import (
 	"time"
 )
 
+const smallSize = 100
+const mediumSize = 1000
+const largeSize = 10000
+const smallPartitions = 25
+const mediumPartitions = 250
+const largePartitions = 2500
+
+func intArrOfN (num int) []int {
+	out := make([]int, num)
+	for i := 0; i < num; i++ {
+		out[i] = i
+	}
+	return out
+}
+
+func elapsedTime(ip partition.IntPartition, arr []int) time.Duration {
+	start := time.Now()
+	ip.Do(arr)
+	return time.Since(start)
+}
+
 func main() {
-	small := []int{0,1,2,3,4,5,6,7,8,9,10}
-	medium := make([]int, 100)
-	for i := 0; i < 100; i++ {
-		medium[i] = i
-	}
-	large := make([]int, 1000)
-	for i := 0; i < 1000; i++ {
-		large[i] = i
-	}
+	small := intArrOfN(smallSize)
+	medium := intArrOfN(mediumSize)
+	large := intArrOfN(largeSize)
+
 	p := partition.PercentPartition{
 		Left:       0,
 		Right:      0,
 		Segment:    1,
-		Partitions: 3,
-		Length:     len(small),
 	}
 	s := partition.SimplePartition{Partitions: 4}
 
-	start := time.Now()
-	p.Do(small)
-	fmt.Printf("percent small took %v\n", time.Since(start))
+	p.Partitions, p.Length = smallPartitions, smallSize
+	pSmallTime, sSmallTime := elapsedTime(&p, small), elapsedTime(&s, small)
+	p.Partitions, p.Length = mediumPartitions, mediumSize
+	pMediumTime, sMediumTime := elapsedTime(&p, medium), elapsedTime(&s, medium)
+	p.Partitions, p.Length = largePartitions, largeSize
+	pLargeTime, sLargeTime := elapsedTime(&p, large), elapsedTime(&s, large)
 
-	start = time.Now()
-	s.Do(small)
-	fmt.Printf("simple small took %v\n", time.Since(start))
-
-	start = time.Now()
-	p.Partitions = 25
-	p.Length = 100
-	p.Do(medium)
-	fmt.Printf("percent medium took %v\n", time.Since(start))
-
-	start = time.Now()
-	s.Do(medium)
-	fmt.Printf("simple medium took %v\n", time.Since(start))
-
-	start = time.Now()
-	p.Partitions = 250
-	p.Length = 1000
-	p.Do(large)
-	fmt.Printf("percent large took %v\n", time.Since(start))
-
-	start = time.Now()
-	s.Do(large)
-	fmt.Printf("percent large took %v\n", time.Since(start))
+	fmt.Printf("percent small time: %v. simple small time: %v\n", pSmallTime, sSmallTime)
+	fmt.Printf("percent medium time: %v. simple medium time: %v\n", pMediumTime, sMediumTime)
+	fmt.Printf("percent large time: %v. simple large time: %v\n", pLargeTime, sLargeTime)
 }
