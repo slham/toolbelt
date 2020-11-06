@@ -1,14 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"github.com/slham/toolbelt/partition"
+	"time"
 )
 
-const smallLength = 10
-const mediumLength = 100
-const largeLength = 1000
+const smallSize = 100
+const mediumSize = 1000
+const largeSize = 10000
+const smallPartitions = 25
+const mediumPartitions = 250
+const largePartitions = 2500
 
-func intArrOfN(num int) []int {
+func intArrOfN (num int) []int {
 	out := make([]int, num)
 	for i := 0; i < num; i++ {
 		out[i] = i
@@ -16,10 +21,16 @@ func intArrOfN(num int) []int {
 	return out
 }
 
+func elapsedTime(ip partition.IntPartition, arr []int) time.Duration {
+	start := time.Now()
+	ip.Do(arr)
+	return time.Since(start)
+}
+
 func main() {
-	small := intArrOfN(smallLength)
-	medium := intArrOfN(mediumLength)
-	large := intArrOfN(largeLength)
+	small := intArrOfN(smallSize)
+	medium := intArrOfN(mediumSize)
+	large := intArrOfN(largeSize)
 
 	p := partition.PercentPartition{
 		Left:       0,
@@ -28,18 +39,14 @@ func main() {
 	}
 	s := partition.SimplePartition{Partitions: 4}
 
-	p.Partitions = 25
-	p.Length = smallLength
-	p.Time(small, "percent small")
-	s.Time(small, "simple small")
+	p.Partitions, p.Length = smallPartitions, smallSize
+	pSmallTime, sSmallTime := elapsedTime(&p, small), elapsedTime(&s, small)
+	p.Partitions, p.Length = mediumPartitions, mediumSize
+	pMediumTime, sMediumTime := elapsedTime(&p, medium), elapsedTime(&s, medium)
+	p.Partitions, p.Length = largePartitions, largeSize
+	pLargeTime, sLargeTime := elapsedTime(&p, large), elapsedTime(&s, large)
 
-	p.Partitions = 250
-	p.Length = mediumLength
-	p.Time(medium, "percent medium")
-	s.Time(medium, "simple medium")
-
-	p.Partitions = 2500
-	p.Length = largeLength
-	p.Time(large, "percent large")
-	s.Time(large, "simple large")
+	fmt.Printf("percent small time: %v. simple small time: %v\n", pSmallTime, sSmallTime)
+	fmt.Printf("percent medium time: %v. simple medium time: %v\n", pMediumTime, sMediumTime)
+	fmt.Printf("percent large time: %v. simple large time: %v\n", pLargeTime, sLargeTime)
 }
