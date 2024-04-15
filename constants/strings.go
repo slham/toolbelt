@@ -3,6 +3,7 @@ package constants
 const TranId = "tranId"
 const UserId = "userId"
 const ReqCtx = "reqCtx"
+const Logger = "logger"
 const BadReq = "bad request"
 const Unauthorized = "unauthorized"
 const InternalServiceError = "internal service error"
